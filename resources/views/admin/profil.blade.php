@@ -21,13 +21,11 @@
         </div>
     </div>
 
-    {{-- GRID 2 kolom --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {{-- CARD FOTO PROFIL --}}
         <div class="bg-white rounded-3xl shadow-lg shadow-stone-200/50 border border-stone-100 p-6 transition hover:shadow-xl">
             <div class="flex flex-col items-center text-center">
-                {{-- Foto --}}
                 <div class="relative mb-4 group">
                     <img id="fotoPreview"
                          src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=FB7E3C&color=fff&size=200' }}"
@@ -39,7 +37,6 @@
                     </label>
                 </div>
 
-                {{-- Info --}}
                 <h3 class="text-xl font-extrabold text-[#2C1A12] mb-1">
                     {{ $user->nama ?? $user->name }}
                 </h3>
@@ -72,7 +69,6 @@
                     </div>
                 </div>
 
-                {{-- Form upload foto --}}
                 <form action="{{ route('admin.profil.foto') }}" method="POST" enctype="multipart/form-data" id="uploadFotoForm" class="w-full mt-4">
                     @csrf
                     <input type="file" id="uploadFotoInput" name="profile_picture" accept="image/jpg,image/jpeg,image/png,image/gif" class="hidden">
@@ -87,7 +83,6 @@
             </div>
         </div>
 
-        {{-- FORM EDIT & PASSWORD --}}
         <div class="lg:col-span-2 flex flex-col gap-6">
 
             {{-- Edit Data Diri --}}
@@ -106,11 +101,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-bold text-stone-600 mb-1">Nama Lengkap</label>
-                            <input type="text" name="nama"
-                                   value="{{ old('nama', $user->nama ?? $user->name) }}"
-                                   class="w-full border border-stone-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#FB7E3C] focus:border-transparent transition @error('nama') border-red-400 @enderror"
+                            <input type="text" name="name"   {{-- <-- GANTI DARI 'nama' MENJADI 'name' --}}
+                                   value="{{ old('name', $user->name) }}"
+                                   class="w-full border border-stone-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#FB7E3C] focus:border-transparent transition @error('name') border-red-400 @enderror"
                                    required>
-                            @error('nama') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-stone-600 mb-1">Email</label>
@@ -131,7 +126,7 @@
                 </form>
             </div>
 
-            {{-- Ganti Password --}}
+            {{-- Ganti Password (tidak diubah) --}}
             <div class="bg-white rounded-3xl shadow-lg shadow-stone-200/50 border border-stone-100 p-6 transition hover:shadow-xl">
                 <div class="flex items-center gap-3 mb-4 pb-2 border-b border-stone-100">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-stone-400 to-stone-600 flex items-center justify-center text-white shadow">
@@ -143,14 +138,12 @@
                 <form action="{{ route('admin.profil.password') }}" method="POST" class="space-y-4">
                     @csrf
                     @method('PATCH')
-
                     <div>
                         <label class="block text-sm font-bold text-stone-600 mb-1">Password Lama</label>
                         <input type="password" name="current_password"
                                class="w-full border border-stone-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#FB7E3C] focus:border-transparent transition"
                                required>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-bold text-stone-600 mb-1">Password Baru</label>
@@ -166,11 +159,9 @@
                                    required>
                         </div>
                     </div>
-
                     @if(session('error_password'))
                         <p class="text-red-500 text-sm flex items-center gap-1"><i class="fas fa-exclamation-circle"></i> {{ session('error_password') }}</p>
                     @endif
-
                     <div class="flex justify-end">
                         <button type="submit"
                                 class="px-6 py-2.5 bg-stone-700 text-white rounded-xl font-bold text-sm hover:bg-stone-800 transition shadow-md hover:scale-105">
@@ -179,14 +170,6 @@
                     </div>
                 </form>
             </div>
-<!-- 
-            {{-- Tombol Kembali ke Dashboard --}}
-            <div class="flex justify-start">
-                <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-2 px-5 py-2.5 bg-[#6B3F2D] text-white rounded-xl font-semibold text-sm hover:bg-[#4A2C1F] transition shadow-md hover:scale-105">
-                    <i class="fas fa-arrow-left text-xs"></i> Kembali ke Dashboard
-                </a>
-            </div> -->
         </div>
     </div>
 </div>
@@ -194,7 +177,6 @@
 
 @push('scripts')
 <script>
-    // Preview foto sebelum upload
     document.getElementById('uploadFotoInput').addEventListener('change', function () {
         const file = this.files[0];
         if (file) {

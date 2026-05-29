@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* ... semua style tetap sama seperti sebelumnya ... */
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
         body { 
@@ -280,6 +279,39 @@
             document.body.style.paddingRight = '0';
         }
     });
+
+    // NOTIFIKASI SWEETALERT UNTUK FLASH MESSAGE
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            timer: 3000,
+            showConfirmButton: false,
+            background: '#FFF9F0',
+            color: '#5A2E1A'
+        });
+    @endif
+
+    @if(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: "{{ session('error') }}",
+            background: '#FFF9F0',
+            color: '#5A2E1A'
+        });
+    @endif
+
+    @if(session('warning'))
+        Swal.fire({
+            icon: 'warning',
+            title: 'Peringatan',
+            text: "{{ session('warning') }}",
+            background: '#FFF9F0',
+            color: '#5A2E1A'
+        });
+    @endif
 </script>
 
 @stack('scripts')

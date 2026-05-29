@@ -30,7 +30,6 @@ class AdminProfileController extends Controller
 
         $user = Auth::user();
 
-        // Hapus foto lama
         if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
             Storage::disk('public')->delete($user->profile_picture);
         }
@@ -52,17 +51,17 @@ class AdminProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'nama'  => 'required|string|max:255',
+            'name'  => 'required|string|max:255',   // <-- PERUBAHAN: name bukan nama
             'email' => 'required|email|unique:users,email,' . Auth::id(),
         ], [
-            'nama.required'  => 'Nama tidak boleh kosong.',
+            'name.required'  => 'Nama tidak boleh kosong.',
             'email.required' => 'Email tidak boleh kosong.',
             'email.email'    => 'Format email tidak valid.',
             'email.unique'   => 'Email sudah digunakan.',
         ]);
 
         Auth::user()->update([
-            'nama'  => $request->nama,
+            'name'  => $request->name,   // <-- PERUBAHAN: name
             'email' => $request->email,
         ]);
 
